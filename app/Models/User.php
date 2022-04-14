@@ -6,11 +6,13 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    private Token $token;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +20,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'uuid',
+        'username',
         'email',
         'password',
     ];
@@ -41,4 +44,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getToken(): Token
+    {
+        if (!isset($this->token)) $this->createToken();
+        return $this->token;
+    }
+
+    public function createToken(): Token
+    {
+        $token = Token::create([
+            'user_id' => $this->uuid,
+            'token' => Str::random(128)
+        ]);
+        $this->token = $token;
+        return $token;
+    }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tokens', function (Blueprint $table) {
             $table->uuid("user_id");
-            $table->string("token")->primary();
+            $table->string("token", 128)->primary();
             $table->timestamps();
         });
     }
