@@ -17,7 +17,8 @@ class TokenFactory extends Factory
     public function definition()
     {
         return [
-            //
+            "user_id" => $this->faker->uuid(), #soooo, this shouldn't be used, it NEEDS to be linked to an actual user
+            "token" => $this->faker->regexify('[A-Za-z0-9]{128}')
         ];
     }
 }

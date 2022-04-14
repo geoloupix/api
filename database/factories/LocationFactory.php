@@ -17,7 +17,12 @@ class LocationFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id' => $this->faker->regexify('[A-Za-z0-9]{5}'),
+            'name' => $this->faker->city(),
+            'latitude' => $this->faker->latitude(),
+            'longitude' => $this->faker->longitude(),
+            'folder_id' => null,
+            'user_id' => $this->faker->uuid()
         ];
     }
 }

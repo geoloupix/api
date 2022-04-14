@@ -17,7 +17,8 @@ class FolderFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'id' => $this->faker->regexify('[A-Za-z0-9]{5}'),
+            'name' => $this->faker->name()
         ];
     }
 }

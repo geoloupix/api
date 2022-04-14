@@ -17,7 +17,10 @@ class ShareFactory extends Factory
     public function definition()
     {
         return [
-            //
+//            'id' => $this->faker->regexify('[A-Za-z0-9]{5}'), #This is a thing if needed
+            'sender_id' => $this->faker->uuid(),    #Should be linked to an user
+            'recipient_id' => $this->faker->uuid(), #Same
+            'resource_id' => $this->faker->regexify('[A-Za-z0-9]{5}') #I guess this to need to be linked to a REAL location
         ];
     }
 }

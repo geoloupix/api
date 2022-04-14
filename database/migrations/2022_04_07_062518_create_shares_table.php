@@ -14,9 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('shares', function (Blueprint $table) {
+//            $table->string("id");
             $table->uuid("sender_id");
             $table->uuid("recipient_id");
-            $table->string("resource_id")->primary();
+            $table->string("resource_id");
             $table->timestamps();
         });
     }
