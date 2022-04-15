@@ -31,8 +31,29 @@ class UserController extends Controller
 //        $validator->validate();
 
         if ($validator->fails()) {
-            return response()->json(["message" => "Fields incorrect"], 400);
+            $fail = $validator->failed();
+            $message = "Invalid fields (unknown error)";
+            switch (array_key_first($fail)) {
+                case "password":
+                    $message = "Field 'password' is required";
+                    if (array_key_first($fail['password']) === "Min") $message = "Password must be at least 8 characters long";
+                    break;
+                case "email":
+                    $message = "Field 'email' is required";
+                    if (array_key_first($fail['email']) === "Email") $message = "Field 'email' must be an email";
+                    if (array_key_first($fail['email']) === "Unique") $message = "Email already in use";
+                    break;
+                case "username":
+                    $message = "Field 'username' is required";
+                    if (array_key_first($fail['username']) === "Unique") $message = "Username already in use";
+                    if (array_key_first($fail['username']) === "Max") $message = "Username can't be over 100 characters long";
+                    break;
+            }
+            return response()->json(["message" => $message], 400);
         }
+
+
+//        dd("out");
 
         $user = User::create([
             'uuid' => Str::uuid(),
