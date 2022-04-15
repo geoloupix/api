@@ -18,3 +18,4 @@ use Illuminate\Support\Facades\Route;
 //Route::apiResource("users", UserController::class); // Les routes "users.*" de l'API
 
 Route::post("register", 'App\Http\Controllers\API\UserController@store');
+Route::post("login", 'App\Http\Controllers\API\UserController@login');

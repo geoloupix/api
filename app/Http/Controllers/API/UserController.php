@@ -73,4 +73,37 @@ class UserController extends Controller
         ], 201);
     }
 
+    public function login(Request $request){
+        // La validation de données
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            $fail = $validator->failed();
+            $message = match (array_key_first($fail)) {
+                "password" => "Field 'password' is required",
+                "username" => "Field 'username' is required",
+                default => "Invalid fields (unknown error)",
+            };
+            return response()->json(["message" => $message], 400);
+        }
+
+        $user = User::where('username', $request['username'])->first();
+        if(!isset($user)) return response()->json(["message" => "Wrong username or password"], 403);
+        if(!$user->passwordCheck($request['password'])) return response()->json(["message" => "Wrong username or password"], 403);
+
+        $user->createToken();
+
+        return response()->json([
+            "uuid" => $user->uuid,
+            "username" => $user->username,
+            "email" => $user->email,
+//            "rank" => $user->rank,
+            "token" => $user->getToken()->token
+        ], 202);
+
+    }
+
 }
