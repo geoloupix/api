@@ -33,6 +33,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             $fail = $validator->failed();
             $message = "Invalid fields (unknown error)";
+            $code = 400;
             switch (array_key_first($fail)) {
                 case "password":
                     $message = "Field 'password' is required";
@@ -41,19 +42,16 @@ class UserController extends Controller
                 case "email":
                     $message = "Field 'email' is required";
                     if (array_key_first($fail['email']) === "Email") $message = "Field 'email' must be an email";
-                    if (array_key_first($fail['email']) === "Unique") $message = "Email already in use";
+                    if (array_key_first($fail['email']) === "Unique") $message = "Email already in use"; $code = 409;
                     break;
                 case "username":
                     $message = "Field 'username' is required";
-                    if (array_key_first($fail['username']) === "Unique") $message = "Username already in use";
+                    if (array_key_first($fail['username']) === "Unique") $message = "Username already in use"; $code = 409;
                     if (array_key_first($fail['username']) === "Max") $message = "Username can't be over 100 characters long";
                     break;
             }
-            return response()->json(["message" => $message], 400);
+            return response()->json(["message" => $message], $code);
         }
-
-
-//        dd("out");
 
         $user = User::create([
             'uuid' => Str::uuid(),
