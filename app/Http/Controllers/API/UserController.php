@@ -19,7 +19,7 @@ class UserController extends Controller
      * @return JsonResponse
      * @throws ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse
     {
 
         // La validation de données
@@ -71,7 +71,12 @@ class UserController extends Controller
         ], 201);
     }
 
-    public function login(Request $request){
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function login(Request $request): JsonResponse
+    {
         // La validation de données
         $validator = Validator::make($request->all(), [
             'username' => 'required',
