@@ -9,6 +9,8 @@ class Token extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = "token";
+
     protected $fillable = [
         "user_id",
         "token"
