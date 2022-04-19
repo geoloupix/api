@@ -26,6 +26,12 @@
                         <span class="mx-auto">GitHub</span>
                     </a>
                 </div>
+                <div class="m-3">
+                    <a target="_blank" href="https://developers.geoloupix.fr"
+                       class="md:w-32 bg-white tracking-wide text-amber-300 font-bold rounded border-2 border-amber-400 hover:border-amber-400 hover:bg-amber-400 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
+                        <span class="mx-auto">API Docs</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
