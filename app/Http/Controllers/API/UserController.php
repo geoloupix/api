@@ -66,7 +66,7 @@ class UserController extends Controller
             "uuid" => $user->uuid,
             "username" => $user->username,
             "email" => $user->email,
-//            "rank" => $user->rank,
+            "confirmed" => false,
             "token" => $user->getToken()->token
         ], 201);
     }
@@ -98,7 +98,7 @@ class UserController extends Controller
             "uuid" => $user->uuid,
             "username" => $user->username,
             "email" => $user->email,
-//            "rank" => $user->rank,
+            "confirmed" => (bool)$user->confirmed,
             "token" => $user->getToken()->token
         ], 202);
 

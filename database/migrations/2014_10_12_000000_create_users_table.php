@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string("username")->unique();
             $table->string("email")->unique();
             $table->string("password");
-            $table->string("rank")->default('user');
+            $table->boolean("confirmed")->default(false);
             $table->timestamps();
         });
     }
