@@ -91,8 +91,8 @@ class UserController extends Controller
         }
 
         $user = User::where('username', $request['username'])->first();
-        if(!isset($user)) return response()->json(["message" => "Wrong username or password"], 403);
-        if(!$user->passwordCheck($request['password'])) return response()->json(["message" => "Wrong username or password"], 403);
+        if(!isset($user)) return response()->json(["message" => "Wrong username or password"], 401);
+        if(!$user->passwordCheck($request['password'])) return response()->json(["message" => "Wrong username or password"], 401);
 
         $user->createToken();
 
