@@ -38,7 +38,7 @@ class EnsureAllRequiredParams
                     $message = ["Field '${field}' ". (($error === "Min")?"must be at least":"can't exceed") ." ${l} characters", 400];
                     break;
                 case 'Unique':
-                    $message = ["Field '${field}' already in use", 400];
+                    $message = ["Field '${field}' already in use", 409];
                     break;
                 default:
                     $message = ["Unknown error", 500];
