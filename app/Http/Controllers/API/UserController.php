@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Token;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -59,6 +60,25 @@ class UserController extends Controller
             "token" => $user->getToken()->token
         ], 202);
 
+    }
+
+    public function patch(Request $request): JsonResponse
+    {
+        $user_id = (Token::find($request->header("X-Token")))->user_id;
+//        dd($user_id);
+        $user = User::find($user_id);
+//        dd($user);
+
+        $user->email = $request['email']??$user->email; //TODO: Add reverification check after changing email adress.
+        $user->username = $request['username']??$user->username;
+        $user->save();
+
+        return response()->json([
+            "uuid" => $user_id,
+            "username" => $user->username,
+            "email" => $user->email,
+            "confirmed" => (bool)$user->confirmed
+        ], 200);
     }
 
 }

@@ -19,7 +19,7 @@ class EnsureAllRequiredParams
      * @param string $params
      * @return JsonResponse
      */
-    public function handle(Request $request, Closure $next, string $params): JsonResponse
+    public function handle(Request $request, Closure $next, string $params): JsonResponse|Response
     {
         $validator = Validator::make($request->all(), unserialize($params));
 
@@ -38,7 +38,8 @@ class EnsureAllRequiredParams
                     $message = ["Field '${field}' ". (($error === "Min")?"must be at least":"can't exceed") ." ${l} characters", 400];
                     break;
                 case 'Unique':
-                    $message = ["Field '${field}' already in use", 409];
+                    $field = ucfirst($field);
+                    $message = ["${field} already in use", 409];
                     break;
                 default:
                     $message = ["Unknown error", 500];

@@ -20,8 +20,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $users = User::factory(10)->create();
+
         for ($i = 0; $i < 10; $i++){
             $user = $users[$i];
+            var_dump($user);
             Token::factory()->create([
                 "user_id" => $user->uuid
             ]);
