@@ -38,4 +38,5 @@ Route::patch("users", 'App\Http\Controllers\API\UserController@patch')
     ]));
 
 
-Route::get("locations", 'App\Http\Controllers\API\LocationController@store')->middleware(EnsureTokenIsValid::class);
+Route::get("locations", 'App\Http\Controllers\API\LocationController@get')
+    ->middleware(EnsureTokenIsValid::class);
