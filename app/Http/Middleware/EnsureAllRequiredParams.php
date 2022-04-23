@@ -41,8 +41,12 @@ class EnsureAllRequiredParams
                     $field = ucfirst($field);
                     $message = ["${field} already in use", 409];
                     break;
+                case 'Exists':
+                    $message = ["The '${field}' given does not exist", 400];
+                    break;
                 default:
-                    $message = ["Unknown error", 500];
+                    $message = ["Unknown error", 456];
+//                    dd($fail);
                     break;
             }
 

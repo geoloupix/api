@@ -26,7 +26,7 @@ Route::post("register", 'App\Http\Controllers\API\UserController@store')
 
 Route::post("login", 'App\Http\Controllers\API\UserController@login')
     ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
-        'username' => 'required',
+        'username' => 'required|exists:users',
         'password' => 'required'
     ]));
 
@@ -36,7 +36,6 @@ Route::patch("users", 'App\Http\Controllers\API\UserController@patch')
         'username' => 'unique:users|max:100',
         'email' => 'unique:users|email'
     ]));
-
 
 Route::get("locations", 'App\Http\Controllers\API\LocationController@get')
     ->middleware(EnsureTokenIsValid::class);
