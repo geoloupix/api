@@ -10,6 +10,8 @@ class Token extends Model
     use HasFactory;
 
     protected $primaryKey = "token";
+    protected $keyType = "string";
+    public $incrementing = false;
 
     protected $fillable = [
         "user_id",
