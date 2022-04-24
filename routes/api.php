@@ -26,7 +26,7 @@ Route::post("register", 'App\Http\Controllers\API\UserController@store')
 
 Route::post("login", 'App\Http\Controllers\API\UserController@login')
     ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
-        'username' => 'required|exists:users',
+        'username' => 'required',
         'password' => 'required'
     ]));
 
