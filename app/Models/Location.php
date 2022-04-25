@@ -9,6 +9,15 @@ class Location extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id',
+        'name',
+        'latitude',
+        'longitude',
+        'folder_id',
+        'user_id'
+    ];
+
     protected $primaryKey = "id";
     protected $keyType = "string";
     public $incrementing = false;

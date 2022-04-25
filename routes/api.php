@@ -39,3 +39,13 @@ Route::patch("users", "App\Http\Controllers\API\UserController@patch")
 
 Route::get("locations", "App\Http\Controllers\API\LocationController@get")
     ->middleware(EnsureTokenIsValid::class);
+
+
+Route::post("locations", "App\Http\Controllers\API\LocationController@store")
+    ->middleware(EnsureTokenIsValid::class)
+    ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
+            "name" => "required|max:100|alpha_num",
+            "lat" => "required|numeric",
+            "long" => "required|numeric",
+            "folder_id" => "nullable|size:5|exists:folders.id" //Should be a comma BUT because we CAN'T have one there, I just use a period and replaced it in the middleware by a comma
+    ]));
