@@ -21,6 +21,8 @@ class EnsureAllRequiredParams
      */
     public function handle(Request $request, Closure $next, string $params): JsonResponse|Response
     {
+        $params = str_replace(".", ",", $params);
+//        dd(unserialize($params));
         $validator = Validator::make($request->all(), unserialize($params));
 
         if ($validator->fails()) {
@@ -30,7 +32,7 @@ class EnsureAllRequiredParams
 
             switch ($error) {
                 case "Required":
-                    $message = ["Field ${field} is required", 400];
+                    $message = ["Field '${field}' is required", 400];
                     break;
                 case "Min":
                 case "Max":
@@ -44,13 +46,23 @@ class EnsureAllRequiredParams
                 case 'Exists':
                     $message = ["The '${field}' given does not exist", 400];
                     break;
+                case 'Numeric':
+                    $message = ["Field '${field}' must be numeric", 400];
+                    break;
+                case 'Size':
+                    $l = $fail[$field][$error][0];
+                    $message = ["Field '${field}' must be exactly ${l} characters long", 400];
+                    break;
+                case 'AlphaNum':
+                    $message = ["Field '{$field}' must be entirely alpha-numeric characters", 400];
+                    break;
                 default:
                     $message = ["Unknown error", 456];
 //                    dd($fail);
                     break;
             }
 
-            return response()->json(["message" => $message[0]], $message[1]);
+            return response()->json(["message" => $message[0]], $message[1]??400);
         }
 
         return $next($request);

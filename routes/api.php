@@ -17,25 +17,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post("register", 'App\Http\Controllers\API\UserController@store')
+Route::post("register", "App\Http\Controllers\API\UserController@store")
     ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
-        'username' => 'required|max:100|unique:users',
-        'email' => 'required|email|unique:users',
-        'password' => 'required|min:8'
+        "username" => "required|max:100|unique:users|alpha_num",
+        "email" => "required|email|unique:users",
+        "password" => "required|min:8"
     ]));
 
-Route::post("login", 'App\Http\Controllers\API\UserController@login')
+Route::post("login", "App\Http\Controllers\API\UserController@login")
     ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
-        'username' => 'required',
-        'password' => 'required'
+        "username" => "required|alpha_num",
+        "password" => "required"
     ]));
 
-Route::patch("users", 'App\Http\Controllers\API\UserController@patch')
+Route::patch("users", "App\Http\Controllers\API\UserController@patch")
     ->middleware(EnsureTokenIsValid::class)
     ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
-        'username' => 'unique:users|max:100',
-        'email' => 'unique:users|email'
+        "username" => "unique:users|max:100|alpha_num",
+        "email" => "unique:users|email"
     ]));
 
-Route::get("locations", 'App\Http\Controllers\API\LocationController@get')
+Route::get("locations", "App\Http\Controllers\API\LocationController@get")
     ->middleware(EnsureTokenIsValid::class);
