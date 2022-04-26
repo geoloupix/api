@@ -23,14 +23,21 @@ class DatabaseSeeder extends Seeder
 
         for ($i = 0; $i < 10; $i++){
             $user = $users[$i];
-            var_dump($user);
+//            var_dump($user);
             Token::factory()->create([
                 "user_id" => $user->uuid
             ]);
-            Folder::factory(2)->create([
+            $f = Folder::factory(2)->create([
                 "user_id" => $user->uuid
             ]);
-            $locs = Location::factory(10)->create([
+
+            for($j = 0; $j < 2; $j++) {
+                $locs = Location::factory(rand(3,10))->create([
+                    "user_id" => $user->uuid,
+                    "folder_id" => $f[$j]->id
+                ]);
+            }
+            Location::factory(rand(3,10))->create([
                 "user_id" => $user->uuid
             ]);
             $s = ($i+2>9)?$i+2-10:$i+2;
