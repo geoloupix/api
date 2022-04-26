@@ -16,19 +16,14 @@ class LocationController extends Controller
 
     public function get(Request $request): JsonResponse
     {
-        $folder_id = $request['folder_id'];
-//        dd($folder_id);
-
+        //TODO: If location is shared to user, he needs to be able to use this endpoint to get information (actually sends a 403)
+        $location_id = $request['id'];
         $user_id = (Token::find($request->header("X-Token")))->user_id;
-//        dd($user_id);
-        $locations =
-            DB::table("locations")
-                ->where("user_id", $user_id)
-                ->where("folder_id", $folder_id)
-                ->get();
-//        dd($locations,$user_id,$folder_id);
 
-        return response()->json($locations);
+        $location = Location::find($location_id);
+        if($location->user_id != $user_id) return response()->json(["message" => "Insufficient permissions for location '${location_id}'"],403);
+
+        return response()->json($location);
     }
 
     public function store(Request $request): JsonResponse
