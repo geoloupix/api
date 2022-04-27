@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/***************************************/
+/*           Users endpoints           */
+/***************************************/
 Route::post("register", "App\Http\Controllers\API\UserController@store")
     ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
         "username" => "required|max:100|unique:users|alpha_num",
@@ -37,6 +40,10 @@ Route::patch("users", "App\Http\Controllers\API\UserController@patch")
         "email" => "unique:users|email"
     ]));
 
+
+/***************************************/
+/*         Locations endpoints         */
+/***************************************/
 Route::get("locations", "App\Http\Controllers\API\LocationController@get")
     ->middleware(EnsureTokenIsValid::class)
     ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
@@ -52,3 +59,13 @@ Route::post("locations", "App\Http\Controllers\API\LocationController@store")
             "long" => "required|numeric",
             "folder_id" => "nullable|size:5|exists:folders.id" //Should be a comma BUT because we CAN'T have one there, I just use a period and replaced it in the middleware by a comma
     ]));
+
+
+/***************************************/
+/*          Folders endpoints          */
+/***************************************/
+Route::get("folders", "App\Http\Controllers\API\FolderController@get")
+    ->middleware(EnsureTokenIsValid::class)
+    ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
+            "folder_id" => "nullable|size:5|exists:folders.id" //Should be a comma BUT because we CAN'T have one there, I just use a period and replaced it in the middleware by a comma
+        ]));
