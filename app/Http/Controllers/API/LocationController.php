@@ -17,11 +17,13 @@ class LocationController extends Controller
     public function get(Request $request): JsonResponse
     {
         //TODO: If location is shared to user, he needs to be able to use this endpoint to get information (actually sends a 403)
-        $location_id = $request['id'];
+        $location_id = $request['id']??null;
         $user_id = (Token::find($request->header("X-Token")))->user_id;
 
-        $location = Location::find($location_id);
-        if($location->user_id != $user_id) return response()->json(["message" => "Insufficient permissions for location '${location_id}'"],403);
+        if ($location_id === null) $location = Location::all();
+        else $location = Location::find($location_id);
+
+        if($location_id !== null and $location->user_id != $user_id) return response()->json(["message" => "Insufficient permissions for location '${location_id}'"],403);
 
         return response()->json($location);
     }

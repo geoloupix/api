@@ -47,7 +47,7 @@ Route::patch("users", "App\Http\Controllers\API\UserController@patch")
 Route::get("locations", "App\Http\Controllers\API\LocationController@get")
     ->middleware(EnsureTokenIsValid::class)
     ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
-        "id" => "required|size:5|exists:locations"
+        "id" => "nullable|size:5|exists:locations"
     ]));
 
 
