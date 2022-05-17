@@ -54,7 +54,7 @@ Route::get("locations", "App\Http\Controllers\API\LocationController@get")
 Route::post("locations", "App\Http\Controllers\API\LocationController@store")
     ->middleware(EnsureTokenIsValid::class)
     ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
-            "name" => "required|max:100|alpha_num",
+            "name" => "required|max:100|min:3|alpha_num",
             "lat" => "required|numeric",
             "long" => "required|numeric",
             "folder_id" => "nullable|size:5|exists:folders.id" //Should be a comma BUT because we CAN'T have one there, I just use a period and replaced it in the middleware by a comma
@@ -68,4 +68,11 @@ Route::get("folders", "App\Http\Controllers\API\FolderController@get")
     ->middleware(EnsureTokenIsValid::class)
     ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
             "folder_id" => "nullable|size:5|exists:folders.id" //Should be a comma BUT because we CAN'T have one there, I just use a period and replaced it in the middleware by a comma
+        ]));
+
+Route::post("folders", "App\Http\Controllers\API\FolderController@store")
+    ->middleware(EnsureTokenIsValid::class)
+    ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
+            "name" => "required|max:100|min:3|alpha_num",
+            "parent_id" => "nullable|size:5|exists:folders.id" //Should be a comma BUT because we CAN'T have one there, I just use a period and replaced it in the middleware by a comma
         ]));

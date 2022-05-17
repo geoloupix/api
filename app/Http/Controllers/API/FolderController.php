@@ -39,4 +39,28 @@ class FolderController extends Controller
         ]);
     }
 
+    public function store(Request $request): JsonResponse
+    {
+        //TODO: Check data leaks
+        $parent_id = $request['folder_id'];
+        $name = $request['name'];
+        $user_id = (Token::find($request->header("X-Token")))->user_id;
+
+        if (isset($folder_id)){
+            $folder = Folder::find($folder_id);
+            if($folder->user_id != $user_id) return response()->json(["message" => "Insufficient permissions for folder '${folder_id}'"],403);
+        }
+
+        $folder = Folder::create([
+            "id" => Str::random(5),
+            "name" => $request['name'],
+            "user_id" => $user_id,
+            "parent_id" => $parent_id
+        ]);
+
+        return response()->json($folder, 201);
+
+
+    }
+
 }

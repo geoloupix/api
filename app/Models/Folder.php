@@ -9,6 +9,13 @@ class Folder extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'id',
+        'name',
+        'parent_id',
+        'user_id'
+    ];
+
     protected $primaryKey = "id";
     protected $keyType = "string";
     public $incrementing = false;
