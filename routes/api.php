@@ -40,6 +40,9 @@ Route::patch("users", "App\Http\Controllers\API\UserController@patch")
         "email" => "unique:users|email"
     ]));
 
+Route::get("users", "App\Http\Controllers\API\UserController@get")
+    ->middleware(EnsureTokenIsValid::class);
+
 
 /***************************************/
 /*         Locations endpoints         */
@@ -59,6 +62,12 @@ Route::post("locations", "App\Http\Controllers\API\LocationController@store")
             "long" => "required|numeric",
             "folder_id" => "nullable|size:5|exists:folders.id" //Should be a comma BUT because we CAN'T have one there, I just use a period and replaced it in the middleware by a comma
     ]));
+
+Route::delete("locations", "App\Http\Controllers\API\LocationController@delete")
+    ->middleware(EnsureTokenIsValid::class)
+    ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
+            "id" => "required|size:5|exists:locations"
+        ]));
 
 
 /***************************************/

@@ -62,12 +62,16 @@ class UserController extends Controller
 
     }
 
+    public function get(Request $request): JsonResponse
+    {
+        $user_id = (Token::find($request->header("X-Token")))->user_id;
+        return response()->json(User::find($user_id));
+    }
+
     public function patch(Request $request): JsonResponse
     {
         $user_id = (Token::find($request->header("X-Token")))->user_id;
-//        dd($user_id);
-        $user = User::find($user_id);
-//        dd($user);
+        $user = $this->get($request);
 
         $user->email = $request['email']??$user->email; //TODO: Add reverification check after changing email adress.
         $user->username = $request['username']??$user->username;
