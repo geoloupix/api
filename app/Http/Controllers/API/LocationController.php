@@ -50,4 +50,18 @@ class LocationController extends Controller
         return response()->json($location, 201);
     }
 
+    public function delete(Request $request): JsonResponse
+    {
+        //TODO: CHECK DATA LEAKS
+        $id = $request['id'];
+        $user_id = (Token::find($request->header("X-Token")))->user_id;
+
+        $location = Location::find($id);
+        if($location->user_id != $user_id) return response()->json(["message" => "Insufficient permissions for location '${id}'"],403);
+
+        $location->delete();
+        return response()->json('', 204);
+
+    }
+
 }
