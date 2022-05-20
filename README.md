@@ -1,64 +1,52 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Geoloupix API
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Presentation
 
-## About Laravel
+Geoloupix is an app to share and save your favorites locations with a click. The project is devided into two parts, the [app itself](https://github.com/geoloupix/app) and the api on witch the app is pulling its ressources from (what you have here)
+This repository show everything that is on [our webserver](https://geoloupix). Each commit is instantly sent to our server.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Files
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+As we know, not everyone is familliar with laravel nor the way I (Marc) decided to use it for this project so I'll create a file tree
+If you see a file in the project not listed here, it means we don't really created it nor use it. Everything needed to understand what we've done so far is documented bellow
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    /github
+        /workflows/ => Where we store the action that upload modifications to the webserver
+    /app
+        /Console
+        /Exceptions
+        /Http
+            /Controllers => Folder where all the logic is
+                /API => Folder where all API controllers are
+                    /FolderController.php => All logic responsable of Folders
+                    /LocationController.php => All logic reponsable of Locations
+                    /UserController.php => All logic responsable of Users
+            /Middleware => Folder where store the modules that intercept the request and verify some parameters
+                /EnsureAllRequiredParams.php => Middleware used to reject requests if it doesn't have all parameters required
+                /EnsureTokenIsValid.php => Middleware used to reject requests if there is no token or if it's invalid (when we need it)
+        /Models => Where we store our objects class
+            /Folder.php => Folder class
+            /Location.php => Locaiton class
+            /Share.php => Share class
+            /Token.php => Token class
+            /User.php => User class
+        /Providers
+    /bootstrap
+    /config => All config files
+    /database
+        /factories => Folder where we stored all "fatories" (is a file to create a "fake" item)
+            /FolderFactory.php => Example: In this file we wrote what's needed to create a "fake" folder
+        /migrations => Files specifying how each database table should be created
+        /seeders => File executed to seed the database with all the factories
+    /lang
+    /public
+    /ressources => Folder storing all public ressources (css/js/html)
+        /css
+        /js
+        /views
+    /routes => Where all URL is defined
+        /api.php => All URLs for the API (https://geoloupix.fr/api/**)
+        /web.php => All "public" URLs (https://geoloupix/**)
+    /storage
+    /tests
+    .env.example => Examble of the file where we have all our environement variables (passwords/usernames/sensitive stuff)
