@@ -2,8 +2,7 @@
 
 ## Presentation
 
-Geoloupix is an app to share and save your favorites locations with a click. The project is devided into two parts, the [app itself](https://github.com/geoloupix/app) and the api on witch the app is pulling its ressources from (what you have here)
-This repository show everything that is on [our webserver](https://geoloupix). Each commit is instantly sent to our server.
+Geoloupix is an app to share and save your favorites locations with a click. The project is devided into two parts, the [app itself](https://github.com/geoloupix/app) and the api on witch the app is pulling its ressources from (what you have here). This repository shows everything that is on [our webserver](https://geoloupix). Each commit is instantly sent to our server using Github Actions.
 
 ## Technologies
 
