@@ -59,8 +59,46 @@ class FolderController extends Controller
         ]);
 
         return response()->json($folder, 201);
+    }
+
+    //TODO: Add implementation for rejecting the request if the number of items in it is >2000
+    public function delete(Request $request):JsonResponse
+    {
+        $user_id = (Token::find($request->header("X-Token")))->user_id;
+        $all = $request['delete_content']??false;
+
+        $folder = Folder::find($request['folder_id']);
+        if($folder->user_id != $user_id) return response()->json(["message" => "Insufficient permissions for folder '${request['id']}'"], 404);
+
+        $locations = Location::where("folder_id", $folder->id)
+            ->get();
+
+        $folders = Folder::where("parent_id", $folder->id)
+            ->get();
+
+        foreach ($locations as $location){
+            if ($all) {
+                $location->delete();
+            } else {
+                $location->folder_id = $folder->parent_id;
+                $location->update();
+            }
+        }
+
+        //Here we can't have $folder because $folder is the og one, the one being deleted
+        foreach ($folders as $f) {
+            if($all) {
+                $f->delete();
+            } else {
+                $f->parent_id = $folder->parent_id;
+                $f->update();
+            }
+        }
+
+        $folder->delete();
 
 
+        return response()->json($folder, 204);
     }
 
 }

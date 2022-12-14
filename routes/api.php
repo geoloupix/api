@@ -85,3 +85,10 @@ Route::post("folders", "App\Http\Controllers\API\FolderController@store")
             "name" => "required|max:100|min:3|alpha_num",
             "parent_id" => "nullable|size:5|exists:folders.id" //Should be a comma BUT because we CAN'T have one there, I just use a period and replaced it in the middleware by a comma
         ]));
+
+Route::delete("folders", "App\Http\Controllers\API\FolderController@delete")
+    ->middleware(EnsureTokenIsValid::class)
+    ->middleware("\App\Http\Middleware\EnsureAllRequiredParams:".serialize([
+            "folder_id" => "required|size:5|exists:folders.id", //Should be a comma BUT because we CAN'T have one there, I just use a period and replaced it in the middleware by a comma
+            "delete_content" => "nullable|boolean"
+        ]));
