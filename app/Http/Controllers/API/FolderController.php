@@ -17,20 +17,15 @@ class FolderController extends Controller
     public function get(Request $request): JsonResponse
     {
         //TODO: Check for data leaks
-        //TODO: Add errors for folder_id not
         $folder_id = $request['folder_id'];
         $user_id = (Token::find($request->header("X-Token")))->user_id;
 
-        $folders = DB::table('folders')
-            ->select("*")
-            ->where('parent_id', '=', $folder_id)
-            ->where('user_id', '=', $user_id)
+        $folders = Folder::where("parent_id", $folder_id)
+            ->where("user_id", "$user_id")
             ->get();
 
-        $locations = DB::table('locations')
-            ->select('*')
-            ->where('folder_id', "=", $folder_id)
-            ->where('user_id', "=", $user_id)
+        $locations = Location::where("folder_id", $folder_id)
+            ->where("user_id", "$user_id")
             ->get();
 
         return response()->json([
@@ -39,16 +34,16 @@ class FolderController extends Controller
         ]);
     }
 
+    //TODO: Check data leaks
     public function store(Request $request): JsonResponse
     {
-        //TODO: Check data leaks
         $parent_id = $request['folder_id'];
         $name = $request['name'];
         $user_id = (Token::find($request->header("X-Token")))->user_id;
 
-        if (isset($folder_id)){
-            $folder = Folder::find($folder_id);
-            if($folder->user_id != $user_id) return response()->json(["message" => "Insufficient permissions for folder '${folder_id}'"],403);
+        if (isset($parent_id)){
+            $folder = Folder::find($parent_id);
+            if($folder->user_id != $user_id) return response()->json(["message" => "Insufficient permissions for folder '${parent_id}'"],403);
         }
 
         $folder = Folder::create([
