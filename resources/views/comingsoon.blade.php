@@ -15,7 +15,7 @@
             </div>
             <div class="flex flex-wrap mt-10 justify-center">
                 <div class="m-3">
-                    <a target="_blank" href="https://discord.gg/yRsZKbCjA8"
+                    <a target="_blank" href="https://discord.gg/37qccrP9eX"
                        class="md:w-32 bg-white tracking-wide text-blue-600 font-bold rounded border-2 border-blue-600 hover:border-blue-600 hover:bg-blue-600 hover:text-white shadow-md py-2 px-6 inline-flex items-center">
                         <span class="mx-auto">Discord</span>
                     </a>
